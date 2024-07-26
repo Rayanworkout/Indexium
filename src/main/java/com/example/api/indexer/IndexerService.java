@@ -2,6 +2,7 @@ package com.example.api.indexer;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -30,10 +31,13 @@ public class IndexerService {
 
         Document doc = new Document();
 
-        // doc.add(new TextField("title", rawDoc.getData(), Field.Store.YES));
+        for (Map.Entry<String, Object> entry : rawDoc.getData().entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue().toString();
+            doc.add(new TextField(key, value, Field.Store.YES));
+        }
 
         writer.addDocument(doc);
 
     }
-
 }
