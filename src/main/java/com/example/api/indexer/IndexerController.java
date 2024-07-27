@@ -12,7 +12,6 @@ import com.example.api.dto.Schema;
 import com.example.api.exception.IndexingRequestException;
 
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 public class IndexerController {
