@@ -9,16 +9,16 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IndexingRequestException.class)
-    public ResponseEntity<Object> handleIndexingException(IndexingRequestException ex, WebRequest request) {
+    @ExceptionHandler(IndexingException.class)
+    public ResponseEntity<Object> handleIndexingException(BaseException ex, WebRequest request) {
+        IndexingException exception = new IndexingException(ex.getMessage(), ex.getHttpStatus());
+        return new ResponseEntity<>(exception, ex.getHttpStatus());
+    }
 
-        HttpStatus badRequestStatus = HttpStatus.BAD_REQUEST;
-
-        // Creating an IndexingException object
-        IndexingException exception = new IndexingException(ex.getMessage(),
-                badRequestStatus.toString());
-
-        return new ResponseEntity<>(exception, badRequestStatus);
+    @ExceptionHandler(SchemaException.class)
+    public ResponseEntity<Object> handleSchemaException(BaseException ex, WebRequest request) {
+        SchemaException exception = new SchemaException(ex.getMessage(), ex.getHttpStatus());
+        return new ResponseEntity<>(exception, ex.getHttpStatus());
     }
 
     @ExceptionHandler(Exception.class)

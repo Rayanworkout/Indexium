@@ -1,15 +1,16 @@
 package com.example.api.indexer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.RawDocument;
 import com.example.api.dto.Schema;
-import com.example.api.exception.IndexingRequestException;
+import com.example.api.exception.IndexingException;
+import com.example.api.schema.SchemaService;
 
 import java.io.IOException;
 
@@ -17,43 +18,28 @@ import java.io.IOException;
 public class IndexerController {
 
     private final IndexerService indexer;
-    private Schema currentSchema;
+
+    @Autowired
+    private SchemaService schemaService;
 
     public IndexerController() throws IOException {
         this.indexer = new IndexerService();
-        this.currentSchema = null;
-    }
-
-    // REGISTER A NEW SCHEMA
-    @PostMapping(path = "/schema/set", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> defineSchema(@RequestBody Schema schema) {
-        this.currentSchema = schema;
-        return ResponseEntity.ok("Schema defined successfully.");
-    }
-
-    // GET THE CURRENT SCHEMA
-    @GetMapping(path = "/schema/get", produces = "application/json")
-    public ResponseEntity<Object> getSchema() {
-        if (this.currentSchema == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No schema is defined. Make a POST request to /schema/set to create one.");
-        }
-
-        return ResponseEntity.ok(this.currentSchema.getFields());
     }
 
     @PostMapping(path = "/index", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> indexDocument(@RequestBody RawDocument rawDoc) throws IOException {
         try {
-
-            if (this.currentSchema == null) {
-                throw new IndexingRequestException(
-                        "You need to set a schema before sending any document. Send a POST request to /schema/set to register the current schema.");
+            Schema currentSchema = schemaService.getCurrentSchema();
+            if (currentSchema == null) {
+                throw new IndexingException(
+                        "You need to set a schema before sending any document. Send a POST request to /schema/set to register the current schema.",
+                        HttpStatus.BAD_REQUEST);
             }
 
             if (rawDoc.getData() == null) {
-                throw new IndexingRequestException(
-                        "You need to provide a title entry to index that must not be empty.");
+                throw new IndexingException(
+                        "You need to provide a title entry to index that must not be empty.",
+                        HttpStatus.BAD_REQUEST);
             }
 
             indexer.index(rawDoc);
@@ -61,7 +47,8 @@ public class IndexerController {
             return ResponseEntity.ok("Successfully indexed: " + rawDoc.getTitle());
 
         } catch (IOException e) {
-            throw new IndexingRequestException("Failed to index document: " + rawDoc.getData(), e);
+            throw new IndexingException("Failed to index document: " + rawDoc.getData(),
+            HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

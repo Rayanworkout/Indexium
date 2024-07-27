@@ -1,4 +1,4 @@
-package com.example.api.indexer;
+package com.example.api.schema;
 
 import java.util.Map;
 
