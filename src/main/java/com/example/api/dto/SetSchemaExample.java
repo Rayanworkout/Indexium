@@ -17,7 +17,6 @@ public class SetSchemaExample {
         fields.put("title", "String");
         fields.put("content", "String");
         fields.put("author", "String");
-        fields.put("publishDate", "Date");
         fields.put("views", "Integer");
         fields.put("isPublished", "Boolean");
         fields.put("rating", "Double");

@@ -1,8 +1,10 @@
 package com.example.api.schema;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.api.dto.Schema;
+import com.example.api.exception.SchemaException;
 
 /**
  * Shared service between the IndexerController and SchemaController;
@@ -18,6 +20,11 @@ public class SchemaService {
     }
 
     public void setCurrentSchema(Schema schema) {
-        this.currentSchema = schema;
+
+        if (schema.validateSchemaTypes()) {
+            this.currentSchema = schema;
+        } else {
+            throw new SchemaException("Schema contains invalid types.", HttpStatus.BAD_REQUEST);
+        }
     }
 }
