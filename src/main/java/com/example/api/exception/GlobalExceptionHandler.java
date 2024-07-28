@@ -1,7 +1,5 @@
 package com.example.api.exception;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +7,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+
+import com.example.api.dto.SetSchemaExample;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,20 +30,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
 
-        String message = "To define a new schema, you need to have the \"fields\" key in the body of your request, and then each field along with its type.";
-        // Object example = {
-        // "fields": {
-        // "title": "String",
-        // "Content": "String"
-        // }
-        // }
+        String message = "To define a new schema, you need to have the 'fields' key in the body of your request, and then each field along with its type.";
 
-        Map<String, String> fields = new HashMap<>();
-        fields.put("title", "String");
-        fields.put("content", "String");
-
-        Map<String, Object> example = new HashMap<>();
-        example.put("fields", fields);
+        SetSchemaExample example = SetSchemaExample.getExampleSchema();
 
         BaseExceptionResponse exception = new BaseExceptionResponse(message, HttpStatus.BAD_REQUEST, example);
         return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
