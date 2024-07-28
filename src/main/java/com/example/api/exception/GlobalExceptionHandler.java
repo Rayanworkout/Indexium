@@ -1,7 +1,11 @@
 package com.example.api.exception;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -15,10 +19,34 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exception, ex.getHttpStatus());
     }
 
+    // SCHEMA NOT SET
     @ExceptionHandler(SchemaException.class)
     public ResponseEntity<Object> handleSchemaException(SchemaException ex, WebRequest request) {
         BaseExceptionResponse exception = new BaseExceptionResponse(ex.getMessage(), ex.getHttpStatus());
         return new ResponseEntity<>(exception, ex.getHttpStatus());
+    }
+
+    // INVALID PAYLOAD AT /SCHEMA/SET
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
+
+        String message = "To define a new schema, you need to have the \"fields\" key in the body of your request, and then each field along with its type.";
+        // Object example = {
+        // "fields": {
+        // "title": "String",
+        // "Content": "String"
+        // }
+        // }
+
+        Map<String, String> fields = new HashMap<>();
+        fields.put("title", "String");
+        fields.put("content", "String");
+
+        Map<String, Object> example = new HashMap<>();
+        example.put("fields", fields);
+
+        BaseExceptionResponse exception = new BaseExceptionResponse(message, HttpStatus.BAD_REQUEST, example);
+        return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

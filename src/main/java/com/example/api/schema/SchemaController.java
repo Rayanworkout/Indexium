@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.Schema;
+import com.example.api.dto.SuccessResponse;
 import com.example.api.exception.SchemaException;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class SchemaController {
@@ -19,9 +22,14 @@ public class SchemaController {
 
     // REGISTER A NEW SCHEMA
     @PostMapping(path = "/schema/set", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> defineSchema(@RequestBody Schema schema) {
+    public ResponseEntity<SuccessResponse> defineSchema(@Valid @RequestBody Schema schema) {
+
+
         schemaService.setCurrentSchema(schema);
-        return ResponseEntity.ok("Schema defined successfully.");
+
+        SuccessResponse response = new SuccessResponse("Schema defined successfully.", HttpStatus.CREATED);
+
+        return ResponseEntity.ok(response);
     }
 
     // GET THE CURRENT SCHEMA
