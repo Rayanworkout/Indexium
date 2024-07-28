@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.Schema;
-
+import com.example.api.exception.SchemaException;
 
 @RestController
 public class SchemaController {
@@ -29,8 +29,9 @@ public class SchemaController {
     public ResponseEntity<Object> getSchema() {
         Schema currentSchema = schemaService.getCurrentSchema();
         if (currentSchema == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No schema is defined. Make a POST request to /schema/set to create one.");
+            throw new SchemaException(
+                    "No schema is defined. Make a POST request to /schema/set to create one.",
+                    HttpStatus.NOT_FOUND);
         }
 
         return ResponseEntity.ok(currentSchema.getFields());

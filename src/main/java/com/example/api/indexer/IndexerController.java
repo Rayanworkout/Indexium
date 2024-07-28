@@ -47,8 +47,9 @@ public class IndexerController {
             return ResponseEntity.ok("Successfully indexed: " + rawDoc.getTitle());
 
         } catch (IOException e) {
-            throw new IndexingException("Failed to index document: " + rawDoc.getData(),
-            HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new IndexingException(
+                    "Failed to index document: " + rawDoc.getData(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

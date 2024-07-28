@@ -10,14 +10,14 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IndexingException.class)
-    public ResponseEntity<Object> handleIndexingException(BaseException ex, WebRequest request) {
-        IndexingException exception = new IndexingException(ex.getMessage(), ex.getHttpStatus());
+    public ResponseEntity<Object> handleIndexingException(IndexingException ex, WebRequest request) {
+        BaseExceptionResponse exception = new BaseExceptionResponse(ex.getMessage(), ex.getHttpStatus());
         return new ResponseEntity<>(exception, ex.getHttpStatus());
     }
 
     @ExceptionHandler(SchemaException.class)
-    public ResponseEntity<Object> handleSchemaException(BaseException ex, WebRequest request) {
-        SchemaException exception = new SchemaException(ex.getMessage(), ex.getHttpStatus());
+    public ResponseEntity<Object> handleSchemaException(SchemaException ex, WebRequest request) {
+        BaseExceptionResponse exception = new BaseExceptionResponse(ex.getMessage(), ex.getHttpStatus());
         return new ResponseEntity<>(exception, ex.getHttpStatus());
     }
 
