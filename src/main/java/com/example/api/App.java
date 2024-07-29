@@ -15,7 +15,7 @@ public class App {
 
 	@GetMapping("/")
 	public String home() {
-		return "Welcome to the Search Engine API.";
+		return "Welcome to Indexium. Start by creating a schema and index your first documents.";
 	}
 
 }
