@@ -27,7 +27,7 @@ public class Schema {
         this.fields = fields;
     }
 
-    private static final Set<String> ACCEPTABLE_TYPES = new HashSet<>();
+    public static final Set<String> ACCEPTABLE_TYPES = new HashSet<>();
 
     static {
         ACCEPTABLE_TYPES.add("String");
