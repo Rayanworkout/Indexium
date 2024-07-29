@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.RawDocument;
 import com.example.api.dto.Schema;
+import com.example.api.dto.SuccessResponse;
 import com.example.api.exception.IndexingException;
 import com.example.api.schema.SchemaService;
+import com.example.api.schema.SchemaValidator;
 
 import java.io.IOException;
 
@@ -27,7 +29,7 @@ public class IndexerController {
     }
 
     @PostMapping(path = "/index", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> indexDocument(@RequestBody RawDocument rawDoc) throws IOException {
+    public ResponseEntity<SuccessResponse> indexDocument(@RequestBody RawDocument rawDoc) throws IOException {
         try {
             Schema currentSchema = schemaService.getCurrentSchema();
             if (currentSchema == null) {
@@ -36,15 +38,19 @@ public class IndexerController {
                         HttpStatus.BAD_REQUEST);
             }
 
-            if (rawDoc.getData() == null) {
+            boolean isValid = SchemaValidator.validate(rawDoc, currentSchema);
+
+            if (!isValid) {
                 throw new IndexingException(
-                        "You need to provide a title entry to index that must not be empty.",
+                        "Your document need to match the current schema. You can fetch /schema/get to see it.",
                         HttpStatus.BAD_REQUEST);
             }
 
             indexer.index(rawDoc);
 
-            return ResponseEntity.ok("Successfully indexed: " + rawDoc.getTitle());
+            SuccessResponse response = new SuccessResponse("Successfully indexed: ", HttpStatus.CREATED);
+
+            return ResponseEntity.ok(response);
 
         } catch (IOException e) {
             throw new IndexingException(
