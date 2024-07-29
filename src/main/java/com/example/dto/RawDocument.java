@@ -1,5 +1,6 @@
 package com.example.dto;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class RawDocument {
@@ -14,7 +15,13 @@ public class RawDocument {
     }
 
     public Map<String, Object> getData() {
-        return data;
+        
+        Map<String, Object> lowerCaseData = new HashMap<>();
+        
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            lowerCaseData.put(entry.getKey().toLowerCase(), entry.getValue());
+        }
+        return lowerCaseData;
     }
 
 }

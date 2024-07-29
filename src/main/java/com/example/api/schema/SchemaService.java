@@ -20,9 +20,11 @@ public class SchemaService {
     }
 
     public void setCurrentSchema(Schema schema) {
-
+        // creating an instance of schema with lowercase keys and types
+        Schema lowercaseSchema = schema.schemaToLowercase();
+        
         if (schema.validateSchemaTypes()) {
-            this.currentSchema = schema;
+            this.currentSchema = lowercaseSchema;
         } else {
             throw new SchemaException("Schema contains one or more invalid type(s). Allowed types are " + Schema.ACCEPTABLE_TYPES,
                     HttpStatus.BAD_REQUEST);

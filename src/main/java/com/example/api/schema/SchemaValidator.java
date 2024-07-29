@@ -4,22 +4,23 @@ import java.util.Map;
 
 import com.example.dto.RawDocument;
 import com.example.dto.Schema;
+import com.example.helpers.StringMethods;
 
 public class SchemaValidator {
 
     public static boolean validate(RawDocument document, Schema schema) {
         Map<String, Object> data = document.getData();
-        Map<String, String> fields = schema.getFields();
+        Map<String, String> schemaFields = schema.getFields();
 
-        if (data == null || fields == null) {
+        if (data == null || schemaFields == null) {
             return false;
         }
 
-        for (Map.Entry<String, String> field : fields.entrySet()) {
-            String fieldName = field.getKey();
+        for (Map.Entry<String, String> field : schemaFields.entrySet()) {
+            String fieldName = field.getKey().trim().toLowerCase();
             String expectedType = field.getValue();
 
-            if (!data.containsKey(fieldName)) {
+            if (!data.keySet().contains(fieldName)) {
                 return false;
             }
 
@@ -28,12 +29,11 @@ public class SchemaValidator {
                 return false;
             }
         }
-
         return true;
     }
 
     private static boolean validateType(Object value, String expectedType) {
-        switch (expectedType) {
+        switch (StringMethods.capitalize(expectedType)) {
             case "String":
                 return value instanceof String;
             case "Integer":
@@ -45,4 +45,3 @@ public class SchemaValidator {
         }
     }
 }
-
