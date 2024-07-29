@@ -3,8 +3,8 @@ package com.example.api.schema;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.example.api.dto.Schema;
 import com.example.api.exception.SchemaException;
+import com.example.dto.Schema;
 
 /**
  * Shared service between the IndexerController and SchemaController;

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.api.dto.Schema;
-import com.example.api.dto.SuccessResponse;
 import com.example.api.exception.SchemaException;
+import com.example.dto.Schema;
+import com.example.dto.SuccessResponse;
 
 import jakarta.validation.Valid;
 

@@ -14,7 +14,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-import com.example.api.dto.RawDocument;
+import com.example.dto.RawDocument;
 
 public class IndexerService {
     private IndexWriter writer;

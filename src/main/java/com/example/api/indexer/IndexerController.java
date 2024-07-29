@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.api.dto.RawDocument;
-import com.example.api.dto.Schema;
-import com.example.api.dto.SuccessResponse;
+import com.example.dto.RawDocument;
+import com.example.dto.Schema;
+import com.example.dto.SuccessResponse;
 import com.example.api.exception.IndexingException;
 import com.example.api.schema.SchemaService;
 import com.example.api.schema.SchemaValidator;

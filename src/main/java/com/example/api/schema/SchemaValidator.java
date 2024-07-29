@@ -2,8 +2,8 @@ package com.example.api.schema;
 
 import java.util.Map;
 
-import com.example.api.dto.RawDocument;
-import com.example.api.dto.Schema;
+import com.example.dto.RawDocument;
+import com.example.dto.Schema;
 
 public class SchemaValidator {
 

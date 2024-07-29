@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.example.api.dto.SetSchemaExample;
+import com.example.dto.SetSchemaExample;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
