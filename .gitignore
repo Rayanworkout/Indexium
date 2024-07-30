@@ -32,4 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
+### Docs ###
 index/
+docs/node_modules/*
+docs/.vitepress/cache/*

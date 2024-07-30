@@ -15,6 +15,13 @@ Harness the power of Lucene’s advanced indexing and querying features through 
 
 # Installation (quick start + link to docs)
 
+## Downloading the JAR file
+
+## Building from source
+To build the project from source, you will need to have [Maven](https://maven.apache.org/) installed on your system. Clone the repository and navigate to the project directory. Then, run the following command:
+
+```bash
+
 # Tests
 
 # Adding Indexium to your project
