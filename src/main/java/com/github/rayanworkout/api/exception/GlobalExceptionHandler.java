@@ -1,4 +1,4 @@
-package com.example.api.exception;
+package com.github.rayanworkout.api.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.example.dto.SetSchemaExample;
+import com.github.rayanworkout.dto.SetSchemaExample;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

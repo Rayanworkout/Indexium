@@ -1,4 +1,4 @@
-package com.example.helpers;
+package com.github.rayanworkout.helpers;
 
 public class StringMethods {
     public static String capitalize(String type) {

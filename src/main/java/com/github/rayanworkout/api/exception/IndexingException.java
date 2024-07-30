@@ -1,4 +1,4 @@
-package com.example.api.exception;
+package com.github.rayanworkout.api.exception;
 
 import org.springframework.http.HttpStatus;
 

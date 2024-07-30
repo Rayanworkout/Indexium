@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.github.rayanworkout.dto;
 
 import org.springframework.http.HttpStatus;
 

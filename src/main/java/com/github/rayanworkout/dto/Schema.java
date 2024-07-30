@@ -1,13 +1,14 @@
-package com.example.dto;
+package com.github.rayanworkout.dto;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.helpers.StringMethods;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.rayanworkout.helpers.StringMethods;
+
 import jakarta.validation.constraints.NotEmpty;
 
 public class Schema {

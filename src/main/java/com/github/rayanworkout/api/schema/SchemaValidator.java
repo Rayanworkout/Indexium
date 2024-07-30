@@ -1,10 +1,10 @@
-package com.example.api.schema;
+package com.github.rayanworkout.api.schema;
 
 import java.util.Map;
 
-import com.example.dto.RawDocument;
-import com.example.dto.Schema;
-import com.example.helpers.StringMethods;
+import com.github.rayanworkout.dto.RawDocument;
+import com.github.rayanworkout.dto.Schema;
+import com.github.rayanworkout.helpers.StringMethods;
 
 public class SchemaValidator {
 

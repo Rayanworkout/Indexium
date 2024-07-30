@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.github.rayanworkout.dto;
 
 import java.util.HashMap;
 import java.util.Map;

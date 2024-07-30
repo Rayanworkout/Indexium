@@ -1,4 +1,4 @@
-package com.example.api;
+package com.github.rayanworkout.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

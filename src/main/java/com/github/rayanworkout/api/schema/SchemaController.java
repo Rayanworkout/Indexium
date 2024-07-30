@@ -1,4 +1,4 @@
-package com.example.api.schema;
+package com.github.rayanworkout.api.schema;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.api.exception.SchemaException;
-import com.example.dto.Schema;
-import com.example.dto.SuccessResponse;
+import com.github.rayanworkout.api.exception.SchemaException;
+import com.github.rayanworkout.dto.Schema;
+import com.github.rayanworkout.dto.SuccessResponse;
 
 import jakarta.validation.Valid;
 

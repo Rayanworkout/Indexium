@@ -1,10 +1,10 @@
-package com.example.api.schema;
+package com.github.rayanworkout.api.schema;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.example.api.exception.SchemaException;
-import com.example.dto.Schema;
+import com.github.rayanworkout.api.exception.SchemaException;
+import com.github.rayanworkout.dto.Schema;
 
 /**
  * Shared service between the IndexerController and SchemaController;

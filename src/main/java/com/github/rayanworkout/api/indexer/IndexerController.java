@@ -1,4 +1,4 @@
-package com.example.api.indexer;
+package com.github.rayanworkout.api.indexer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dto.RawDocument;
-import com.example.dto.Schema;
-import com.example.dto.SuccessResponse;
-import com.example.api.exception.IndexingException;
-import com.example.api.schema.SchemaService;
-import com.example.api.schema.SchemaValidator;
+import com.github.rayanworkout.api.exception.IndexingException;
+import com.github.rayanworkout.api.schema.SchemaService;
+import com.github.rayanworkout.api.schema.SchemaValidator;
+import com.github.rayanworkout.dto.RawDocument;
+import com.github.rayanworkout.dto.Schema;
+import com.github.rayanworkout.dto.SuccessResponse;
 
 import java.io.IOException;
 

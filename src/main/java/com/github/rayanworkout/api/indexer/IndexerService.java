@@ -1,4 +1,4 @@
-package com.example.api.indexer;
+package com.github.rayanworkout.api.indexer;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -14,7 +14,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-import com.example.dto.RawDocument;
+import com.github.rayanworkout.dto.RawDocument;
 
 public class IndexerService {
     private IndexWriter writer;

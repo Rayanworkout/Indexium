@@ -1,4 +1,4 @@
-package com.example.api.searcher;
+package com.github.rayanworkout.api.searcher;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;

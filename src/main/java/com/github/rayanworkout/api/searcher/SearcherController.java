@@ -1,4 +1,4 @@
-package com.example.api.searcher;
+package com.github.rayanworkout.api.searcher;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
