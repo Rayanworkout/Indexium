@@ -1,25 +1,27 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
-  name: "indexium"
-  text: "An Apache Lucene based Search Engine API."
-  tagline: My great project tagline
+  name: "Indexium"
+  text: "A fast and efficient search engine built on Apache Lucene."
+  tagline: Easily integrate search into your application.
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get Started
+      link: /guide
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Installation
+      link: /guide/installation
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Written in Java
+    icon: 🚀
+    details: This API uses Java Spring Boot to be fast, reliable and easily extendable.
+  - title: Based on Apache Lucene
+    icon: 🔍
+    details: Apache Lucene is a high-performance, full-featured text search engine library written entirely in Java.
+  - title: Easy to use
+    icon: 🛠
+    details: Indexium is designed to be easy to use and to integrate in any application.
 ---
 
