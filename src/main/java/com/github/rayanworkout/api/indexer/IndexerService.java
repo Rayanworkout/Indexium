@@ -13,9 +13,11 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.stereotype.Service;
 
 import com.github.rayanworkout.dto.RawDocument;
 
+@Service
 public class IndexerService {
     private IndexWriter writer;
 

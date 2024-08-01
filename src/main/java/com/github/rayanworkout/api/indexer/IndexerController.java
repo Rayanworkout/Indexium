@@ -1,6 +1,5 @@
 package com.github.rayanworkout.api.indexer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,19 +13,18 @@ import com.github.rayanworkout.dto.RawDocument;
 import com.github.rayanworkout.dto.Schema;
 import com.github.rayanworkout.dto.SuccessResponse;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 public class IndexerController {
 
     private final IndexerService indexer;
 
-    @Autowired
-    private SchemaService schemaService;
+    private final SchemaService schemaService;
 
-    public IndexerController() throws IOException {
-        this.indexer = new IndexerService();
-    }
 
     @PostMapping(path = "/index", consumes = "application/json", produces = "application/json")
     public ResponseEntity<SuccessResponse> indexDocument(@RequestBody RawDocument rawDoc) throws IOException {
