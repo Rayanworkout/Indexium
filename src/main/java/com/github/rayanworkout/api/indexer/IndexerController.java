@@ -25,20 +25,20 @@ public class IndexerController {
 
     private final SchemaService schemaService;
 
-
     @PostMapping(path = "/index", consumes = "application/json", produces = "application/json")
     public ResponseEntity<SuccessResponse> indexDocument(@RequestBody RawDocument rawDoc) throws IOException {
         try {
             Schema currentSchema = schemaService.getCurrentSchema();
+
             if (currentSchema == null) {
                 throw new IndexingException(
                         "You need to set a schema before sending any document. Send a POST request to /schema/set to register the current schema.",
                         HttpStatus.BAD_REQUEST);
             }
 
-            boolean isValid = SchemaValidator.validate(rawDoc, currentSchema);
+            boolean isSchemaValid = SchemaValidator.validate(rawDoc, currentSchema);
 
-            if (!isValid) {
+            if (!isSchemaValid) {
                 throw new IndexingException(
                         "Your document need to match the current schema. You can fetch /schema/get to see it.",
                         HttpStatus.BAD_REQUEST);
@@ -46,9 +46,8 @@ public class IndexerController {
 
             indexer.index(rawDoc);
 
-            SuccessResponse response = new SuccessResponse("Successfully indexed: ", HttpStatus.CREATED);
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(
+                    new SuccessResponse("Successfully indexed: ", HttpStatus.CREATED));
 
         } catch (IOException e) {
             throw new IndexingException(

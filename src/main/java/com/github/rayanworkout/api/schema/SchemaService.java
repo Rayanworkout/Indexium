@@ -20,7 +20,7 @@ public class SchemaService {
     }
 
     public void setCurrentSchema(Schema schema) {
-        // creating an instance of schema with lowercase keys and types
+        // Creating an instance of schema with lowercase keys
         Schema lowercaseSchema = schema.schemaToLowercase();
         
         if (schema.validateSchemaTypes()) {
