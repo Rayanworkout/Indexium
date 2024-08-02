@@ -20,14 +20,14 @@ import com.github.rayanworkout.helpers.StringMethods;
  */
 @Service
 public class SchemaService {
-    private Schema currentSchema;
+    private Schema currentSchema = new Schema(new HashMap<>());
 
     Optional<Map<String, String>> optionalFields = Optional.ofNullable(currentSchema.getFields());
 
     Map<String, String> fields = optionalFields.orElse(new HashMap<>());
 
     public Schema getCurrentSchema() {
-        return currentSchema.getFields() == null ? null : currentSchema;
+        return currentSchema.getFields() == null || currentSchema.getFields().isEmpty() ? null : currentSchema;
     }
 
     public void setCurrentSchema(Schema schemaCand) {
