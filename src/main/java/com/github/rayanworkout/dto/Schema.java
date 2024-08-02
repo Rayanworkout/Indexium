@@ -21,7 +21,7 @@ public class Schema {
 
     public Map<String, String> getFields() {
 
-        return fields;
+        return fields == null ? null : fields;
     }
 
     public static final Set<String> ACCEPTABLE_TYPES = new HashSet<>();

@@ -1,7 +1,9 @@
 package com.github.rayanworkout.api.schema;
 
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -20,31 +22,35 @@ import com.github.rayanworkout.helpers.StringMethods;
 public class SchemaService {
     private Schema currentSchema;
 
-    Map<String, String> fields = currentSchema.getFields();
+    Optional<Map<String, String>> optionalFields = Optional.ofNullable(currentSchema.getFields());
+
+    Map<String, String> fields = optionalFields.orElse(new HashMap<>());
 
     public Schema getCurrentSchema() {
-        return currentSchema.getFields() == null ? currentSchema : null;
+        return currentSchema.getFields() == null ? null : currentSchema;
     }
 
-    public void setCurrentSchema(Schema schema) {
+    public void setCurrentSchema(Schema schemaCand) {
 
-        if (schema.getFields() == null || schema.getFields().isEmpty()) {
-            throw new SchemaException(
-                    "Schema is empty. Please provide some fields.",
-                    HttpStatus.BAD_REQUEST);
-        }
+        Optional<Map<String, String>> optionalCurrentSchema = Optional.ofNullable(schemaCand.getFields());
 
-        // Creating an instance of schema with lowercase keys
-        Schema lowercaseSchema = schemaToLowercase();
+        optionalCurrentSchema.ifPresentOrElse(
+                fields -> {
+                    // Creating an instance of schema with lowercase keys
+                    Schema lowercaseSchema = schemaToLowercase(new Schema(fields));
 
-        if (!validateSchemaTypes()) {
-            throw new SchemaException(
-                    "Schema contains one or more invalid type(s). Allowed types are " + Schema.ACCEPTABLE_TYPES,
-                    HttpStatus.BAD_REQUEST);
-        }
+                    if (!validateSchemaTypes()) {
+                        throw new SchemaException(
+                                "Schema contains one or more invalid type(s). Allowed types are "
+                                        + Schema.ACCEPTABLE_TYPES,
+                                HttpStatus.BAD_REQUEST);
+                    }
 
-        // If everything is ok, I assign the new schema
-        this.currentSchema = lowercaseSchema;
+                    // If everything is ok, I assign the new schema
+                    this.currentSchema = lowercaseSchema;
+                },
+                () -> throwSchemaException("Schema is empty. Please provide some fields."));
+
     }
 
     private boolean validateSchemaTypes() {
@@ -59,13 +65,20 @@ public class SchemaService {
     /**
      * Returns a new Schema object with lowercase keys in the fields map.
      */
-    private Schema schemaToLowercase() {
+    private Schema schemaToLowercase(Schema schema) {
         return new Schema(
-                fields.entrySet()
+                schema.getFields().entrySet()
                         .stream()
                         .map(e -> new AbstractMap.SimpleEntry<String, String>(
                                 e.getKey().toLowerCase(), e.getValue().toLowerCase()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 
     }
+
+    private void throwSchemaException(String message) {
+        throw new SchemaException(
+                message,
+                HttpStatus.BAD_REQUEST);
+    }
+
 }
