@@ -13,8 +13,10 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.github.rayanworkout.api.exception.IndexingException;
 import com.github.rayanworkout.dto.RawDocument;
 
 @Service
@@ -41,5 +43,11 @@ public class IndexerService {
 
         writer.addDocument(doc);
 
+    }
+
+    public void throwIndexingException(String message) {
+        throw new IndexingException(
+                message,
+                HttpStatus.BAD_REQUEST);
     }
 }

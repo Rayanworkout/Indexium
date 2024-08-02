@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.rayanworkout.api.exception.IndexingException;
 import com.github.rayanworkout.api.schema.SchemaService;
 import com.github.rayanworkout.api.schema.SchemaValidator;
 import com.github.rayanworkout.dto.RawDocument;
@@ -16,6 +15,7 @@ import com.github.rayanworkout.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,32 +27,34 @@ public class IndexerController {
 
     @PostMapping(path = "/index", consumes = "application/json", produces = "application/json")
     public ResponseEntity<SuccessResponse> indexDocument(@RequestBody RawDocument rawDoc) throws IOException {
-        try {
-            Schema currentSchema = schemaService.getCurrentSchema();
 
-            if (currentSchema == null) {
-                throw new IndexingException(
-                        "You need to set a schema before sending any document. Send a POST request to /schema/set to register the current schema.",
-                        HttpStatus.BAD_REQUEST);
-            }
+        Optional<Schema> optionalCurrentSchema = Optional.ofNullable(schemaService.getCurrentSchema());
 
-            boolean isSchemaValid = SchemaValidator.validate(rawDoc, currentSchema);
+        optionalCurrentSchema.ifPresentOrElse(
 
-            if (!isSchemaValid) {
-                throw new IndexingException(
-                        "Your document need to match the current schema. You can fetch /schema/get to see it.",
-                        HttpStatus.BAD_REQUEST);
-            }
+                schema -> {
+                    boolean isSchemaValid = SchemaValidator.validate(rawDoc, schema);
 
-            indexer.index(rawDoc);
+                    if (!isSchemaValid) {
+                        indexer.throwIndexingException(
+                                "Your document need to match the current schema. You can fetch /schema/get to see it.");
+                    }
 
-            return ResponseEntity.ok(
-                    new SuccessResponse("Successfully indexed: ", HttpStatus.CREATED));
+                    try {
 
-        } catch (IOException e) {
-            throw new IndexingException(
-                    "Failed to index document: " + rawDoc.getData(),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+                        indexer.index(rawDoc);
+
+                    } catch (IOException e) {
+                        indexer.throwIndexingException(
+                                "Failed to index document: " + rawDoc.getData());
+                    }
+
+                },
+
+                () -> indexer.throwIndexingException(
+                        "You need to set a schema before sending any document. Send a POST request to /schema/set to register the current schema."));
+
+        return ResponseEntity.ok(
+                new SuccessResponse("Successfully indexed: ", HttpStatus.CREATED));
     }
 }

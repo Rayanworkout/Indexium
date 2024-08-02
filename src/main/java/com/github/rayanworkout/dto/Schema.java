@@ -1,13 +1,11 @@
 package com.github.rayanworkout.dto;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.rayanworkout.helpers.StringMethods;
 
 import jakarta.validation.constraints.NotEmpty;
 
@@ -35,32 +33,4 @@ public class Schema {
         ACCEPTABLE_TYPES.add("Double");
     }
 
-    public boolean validateSchemaTypes() {
-        if (fields == null || fields.isEmpty()) {
-            return false;
-        }
-
-        // Validate that all capitalized types are acceptable
-        return fields.values()
-                .stream()
-                .map(e -> StringMethods.capitalize(e))
-                .allMatch(ACCEPTABLE_TYPES::contains);
-    }
-
-    /**
-     * Returns a new Schema object with lowercase keys in the fields map.
-     */
-    public Schema schemaToLowercase() {
-        if (fields == null) {
-            return new Schema(new HashMap<>());
-        }
-
-        Map<String, String> lowerCaseFields = new HashMap<>();
-
-        for (Map.Entry<String, String> entry : fields.entrySet()) {
-            lowerCaseFields.put(entry.getKey().toLowerCase(), entry.getValue().toLowerCase());
-        }
-
-        return new Schema(lowerCaseFields);
-    }
 }
