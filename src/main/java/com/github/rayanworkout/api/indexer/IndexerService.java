@@ -36,7 +36,7 @@ public class IndexerService {
         Document doc = new Document();
 
         for (Map.Entry<String, Object> entry : rawDoc.getData().entrySet()) {
-            String key = entry.getKey();
+            String key = entry.getKey().toLowerCase();
             String value = entry.getValue().toString();
             doc.add(new TextField(key, value, Field.Store.YES));
         }

@@ -1,6 +1,8 @@
 package com.github.rayanworkout.api.schema;
 
+import java.util.AbstractMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.github.rayanworkout.dto.RawDocument;
 import com.github.rayanworkout.dto.Schema;
@@ -9,27 +11,32 @@ import com.github.rayanworkout.helpers.StringMethods;
 public class SchemaValidator {
 
     public static boolean validate(RawDocument document, Schema schema) {
-        Map<String, Object> data = document.getData();
+        Map<String, Object> documentData = document.getData();
         Map<String, String> schemaFields = schema.getFields();
 
-        if (data == null || schemaFields == null) {
+        if (documentData == null || schemaFields == null) {
             return false;
         }
 
-        for (Map.Entry<String, String> field : schemaFields.entrySet()) {
-            String fieldName = field.getKey().trim().toLowerCase();
-            String expectedType = field.getValue();
+        Map<String, Object> lowercaseDocData = documentData.entrySet()
+                .stream()
+                .map(e -> new AbstractMap.SimpleEntry<>(
+                        e.getKey().trim().toLowerCase(),
+                        e.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-            if (!data.keySet().contains(fieldName)) {
-                return false;
-            }
+        return schemaFields.entrySet().stream()
+                .allMatch(field -> {
+                    String fieldName = field.getKey().trim();
+                    String expectedType = field.getValue();
 
-            Object value = data.get(fieldName);
-            if (!validateType(value, expectedType)) {
-                return false;
-            }
-        }
-        return true;
+                    if (!lowercaseDocData.keySet().contains(fieldName)) {
+                        return false;
+                    }
+
+                    Object value = documentData.get(fieldName);
+                    return validateType(value, expectedType);
+                });
     }
 
     private static boolean validateType(Object value, String expectedType) {

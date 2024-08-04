@@ -55,6 +55,6 @@ public class IndexerController {
                         "You need to set a schema before sending any document. Send a POST request to /schema/set to register the current schema."));
 
         return ResponseEntity.ok(
-                new SuccessResponse("Successfully indexed: ", HttpStatus.CREATED));
+                new SuccessResponse("Successfully indexed document.", HttpStatus.CREATED));
     }
 }
