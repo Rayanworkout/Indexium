@@ -3,6 +3,8 @@ package com.github.rayanworkout.api.searcher;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.github.rayanworkout.dto.FoundDocument;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -13,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 /**
  * The class looks up a movie in the movies index created by {@SimpleIndexer}
  */
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SearcherController {
 
     @GetMapping(path = "/search", produces = "application/json")
-    public ResponseEntity<List<String>> searchDocuments(
+    public ResponseEntity<FoundDocument> searchDocuments(
             @RequestParam String q, @RequestParam String field) {
 
         SearcherService searcher = new SearcherService();
@@ -30,12 +30,17 @@ public class SearcherController {
         try {
             List<String> result = searcher.search(field, q);
 
-            return ResponseEntity.ok(result);
+            return ResponseEntity.ok(
+                    new FoundDocument(
+                            result.size(),
+                            field,
+                            result));
 
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (IndexNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No data is indexed, you need to index some data first.", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No data is indexed, you need to index some data first.", e);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,6 +11,8 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import org.springframework.stereotype.Service;
+
+
 import org.apache.lucene.search.FuzzyQuery;
 
 import java.io.IOException;
@@ -18,9 +20,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The class looks up a movie in the movies index created by {@SimpleIndexer}
- */
 @Service
 public class SearcherService {
     public List<String> search(String field, String q) throws IOException, ParseException {
@@ -42,9 +41,10 @@ public class SearcherService {
         for (ScoreDoc scoreDoc : results) {
             int docId = scoreDoc.doc;
             Document result = indexSearcher.storedFields().document(docId);
-            resultList.add(String.format("Found: %s", result.get(field)));
+            resultList.add(result.get(field));
         }
-        System.out.println(resultList);
+
         return resultList;
+
     }
 }
