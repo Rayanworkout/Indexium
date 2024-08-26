@@ -36,6 +36,7 @@ public class SchemaService {
 
         optionalCurrentSchema.ifPresentOrElse(
                 fields -> {
+                    
                     // Creating an instance of schema with lowercase keys
                     Schema lowercaseSchema = schemaToLowercase(new Schema(fields));
 
@@ -54,6 +55,7 @@ public class SchemaService {
     }
 
     private boolean validateSchemaTypes(Schema fieldsToCheck) {
+
         // Validate that all fields have types that are acceptable
         return fieldsToCheck.getFields()
                 .values()
