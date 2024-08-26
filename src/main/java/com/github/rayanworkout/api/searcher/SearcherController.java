@@ -3,7 +3,7 @@ package com.github.rayanworkout.api.searcher;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.github.rayanworkout.dto.FoundDocument;
+import com.github.rayanworkout.dto.SearchResult;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SearcherController {
 
     @GetMapping(path = "/search", produces = "application/json")
-    public ResponseEntity<FoundDocument> searchDocuments(
+    public ResponseEntity<SearchResult> searchDocuments(
             @RequestParam String q, @RequestParam String field) {
 
         SearcherService searcher = new SearcherService();
@@ -31,7 +31,8 @@ public class SearcherController {
             List<String> result = searcher.search(field, q);
 
             return ResponseEntity.ok(
-                    new FoundDocument(
+                    new SearchResult(
+                        HttpStatus.FOUND,
                             result.size(),
                             field,
                             result));
