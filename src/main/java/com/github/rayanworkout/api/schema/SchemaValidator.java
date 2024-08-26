@@ -34,7 +34,8 @@ public class SchemaValidator {
                         return false;
                     }
 
-                    Object value = documentData.get(fieldName);
+                    Object value = lowercaseDocData.get(fieldName);
+                    
                     return validateType(value, expectedType);
                 });
     }
