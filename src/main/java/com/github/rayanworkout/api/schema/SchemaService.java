@@ -30,16 +30,16 @@ public class SchemaService {
         return currentSchema.getFields() == null || currentSchema.getFields().isEmpty() ? null : currentSchema;
     }
 
-    public void setCurrentSchema(Schema schemaCand) {
+    public void setCurrentSchema(Schema schemaCandidate) {
 
-        Optional<Map<String, String>> optionalCurrentSchema = Optional.ofNullable(schemaCand.getFields());
+        Optional<Map<String, String>> optionalCurrentSchema = Optional.ofNullable(schemaCandidate.getFields());
 
         optionalCurrentSchema.ifPresentOrElse(
                 fields -> {
                     // Creating an instance of schema with lowercase keys
                     Schema lowercaseSchema = schemaToLowercase(new Schema(fields));
 
-                    if (!validateSchemaTypes()) {
+                    if (!validateSchemaTypes(lowercaseSchema)) {
                         throw new SchemaException(
                                 "Schema contains one or more invalid type(s). Allowed types are "
                                         + Schema.ACCEPTABLE_TYPES,
@@ -53,11 +53,12 @@ public class SchemaService {
 
     }
 
-    private boolean validateSchemaTypes() {
-
-        // Validate that all capitalized types are acceptable
-        return fields.values()
+    private boolean validateSchemaTypes(Schema fieldsToCheck) {
+        // Validate that all fields have types that are acceptable
+        return fieldsToCheck.getFields()
+                .values()
                 .stream()
+                .map(String::trim)
                 .map(e -> StringMethods.capitalize(e))
                 .allMatch(Schema.ACCEPTABLE_TYPES::contains);
     }

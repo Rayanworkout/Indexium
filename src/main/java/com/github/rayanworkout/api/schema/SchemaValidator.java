@@ -29,18 +29,20 @@ public class SchemaValidator {
                 .allMatch(field -> {
                     String fieldName = field.getKey().trim();
                     String expectedType = field.getValue();
-
-                    if (!lowercaseDocData.keySet().contains(fieldName)) {
+                    
+                    // If the field sent is not in the schema of if there is an additional field
+                    if (!lowercaseDocData.keySet().contains(fieldName)
+                            || lowercaseDocData.keySet().size() != schemaFields.keySet().size()) {
                         return false;
                     }
 
                     Object value = lowercaseDocData.get(fieldName);
-                    
-                    return validateType(value, expectedType);
+
+                    return validateValuesType(value, expectedType);
                 });
     }
 
-    private static boolean validateType(Object value, String expectedType) {
+    private static boolean validateValuesType(Object value, String expectedType) {
         switch (StringMethods.capitalize(expectedType)) {
             case "String":
                 return value instanceof String;
