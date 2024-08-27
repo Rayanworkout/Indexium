@@ -1,7 +1,6 @@
 package com.github.rayanworkout.api.searcher;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.github.rayanworkout.dto.SearchResult;
 
@@ -32,20 +31,27 @@ public class SearcherController {
 
             return ResponseEntity.ok(
                     new SearchResult(
-                        HttpStatus.FOUND,
+                            result.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND,
                             result.size(),
                             field,
                             result));
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            searcher.throwSearchException(
+                    "Could not parse the query. Please check the query syntax.");
         } catch (IndexNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No data is indexed, you need to index some data first.", e);
+            searcher.throwSearchException(
+                    "No data is indexed, you need to index some data first.");
         } catch (IOException e) {
-            e.printStackTrace();
+            searcher.throwSearchException(
+                    "Failed to search for documents within the index.");
+        } catch (Exception e) {
+            searcher.throwSearchException(
+                    "An unexpected error occurred while searching for documents: " + e.getMessage());
         }
-        return ResponseEntity.notFound().build();
+
+        return null;
+
     }
 
 }

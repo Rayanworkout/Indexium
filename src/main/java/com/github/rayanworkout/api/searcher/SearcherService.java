@@ -10,8 +10,10 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.github.rayanworkout.api.exception.SearchException;
 
 import org.apache.lucene.search.FuzzyQuery;
 
@@ -47,4 +49,11 @@ public class SearcherService {
         return resultList;
 
     }
+
+    public void throwSearchException(String message) {
+        throw new SearchException(
+                message,
+                HttpStatus.BAD_REQUEST);
+    }
+
 }
