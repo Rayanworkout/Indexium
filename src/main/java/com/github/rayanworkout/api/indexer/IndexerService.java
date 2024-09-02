@@ -22,17 +22,18 @@ import com.github.rayanworkout.dto.RawDocument;
 @Service
 public class IndexerService {
     private IndexWriter writer;
+    private Directory directory;
+    private IndexWriterConfig indexWriterConfig;
 
     // Constructor
     public IndexerService() throws IOException {
-        Directory directory = FSDirectory.open(Paths.get("index"));
+        this.directory = FSDirectory.open(Paths.get("index"));
         Analyzer analyzer = new StandardAnalyzer();
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        this.indexWriterConfig = new IndexWriterConfig(analyzer);
         this.writer = new IndexWriter(directory, indexWriterConfig);
     }
 
     public void index(RawDocument rawDoc) throws IOException {
-
         Document doc = new Document();
 
         for (Map.Entry<String, Object> entry : rawDoc.getData().entrySet()) {
@@ -42,7 +43,7 @@ public class IndexerService {
         }
 
         writer.addDocument(doc);
-        writer.close();
+        writer.commit();
 
     }
 

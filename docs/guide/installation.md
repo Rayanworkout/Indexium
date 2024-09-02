@@ -17,11 +17,11 @@ Once you have verified that Java is installed, you can proceed to download and r
 
 ### Downloading pre-built JAR
 
-The most straightforward way to get started with Indexium is to download the JAR file from the [releases page]() and run it as a standalone application.
+The most straightforward way to get started with Indexium is to download the JAR file from [github](https://github.com/Rayanworkout/Indexium/releases/download/v0.1.0/Indexium-0.0.1-SNAPSHOT.jar) and run it as a standalone application.
 
 
 ```bash
-java -jar path-to-your-file.jar
+java -jar Indexium-0.0.1-SNAPSHOT.jar
 ```
 
 The Spring Boot application will start, and you can access the API at `http://localhost:8080`.

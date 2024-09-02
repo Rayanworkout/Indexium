@@ -35,7 +35,8 @@ public class SearcherService {
         TopDocs topDocs = indexSearcher.search(query, 10);
 
         long totalHits = topDocs.totalHits.value;
-        System.out.println(String.format("Found %d hits.", totalHits));
+        String hit = totalHits > 1 ? "hits" : "hit";
+        System.out.println(String.format("Found %d %s.", totalHits, hit));
 
         ScoreDoc[] results = topDocs.scoreDocs;
 
