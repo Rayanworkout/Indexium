@@ -27,13 +27,15 @@ And the indexed document was:
 }
 ```
 
-To search for content, you need to send a GET request to the `/search` endpoint with the query you want to search for. Here's an example using `curl`:
+To search for content, you need to send a GET request to the `/search` endpoint with the query you want to search for.
+For example, let's look for the word "fox" in the content field using `curl`:
+
 
 ```bash
 curl -X GET "http://localhost:8080/search?field=content&q=fox"
 ```
 
-You receive a response like this:
+You should receive a response like this:
 
 ```json
 {

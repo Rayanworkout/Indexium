@@ -9,7 +9,7 @@ The first step is to create a schema. Without a schema, you won't be able to ind
 
 Let's say we need to index some blog articles, so our users will be able to easily search for them. We could define a simple schema with this structure:
 
-```json{2}
+```json
 {
   "fields":
     {
@@ -28,7 +28,7 @@ Allowed field types are:
 - `Boolean`
 - `Double`
 
-To create a schema, you need to send a POST request to the `/schema/set` endpoint with the schema JSON in the request body. Here's an example using `curl`:
+To create a schema, you need to send a POST request to the `/schema/set` endpoint with the JSON schema in the request body. Here's an example using `curl`:
 
 ```bash
 curl -X POST http://localhost:8080/schema/set -H "Content-Type: application/json" -d '{

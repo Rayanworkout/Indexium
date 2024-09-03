@@ -7,10 +7,10 @@ The primary goal of Indexium is to be **user-friendly and easy to use**. It is d
 
 Harness the power of Lucene’s advanced indexing and querying features through a straightforward API that scales effortlessly with your needs. Enhance your project with Indexium to enable fast and precise search functionality, ensuring your users can find what they need swiftly and easily.
 
-The documentation is available at https://indexium.vercel.app/
+The documentation is available [here](https://indexium.vercel.app/).
 
 
-# Examples
+# Overview
 
 ### Creating a schema
 

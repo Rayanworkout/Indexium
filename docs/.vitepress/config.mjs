@@ -5,10 +5,9 @@ export default defineConfig({
   title: "Indexium",
   description: "An Apache Lucene based Search Engine API.",
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/examples' },
+      { text: 'Examples', link: '/quickstart/examples' },
       { text: 'Guide', link: '/guide' }
     ],
 
